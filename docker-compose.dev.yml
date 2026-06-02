@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: scaped_prod
+      POSTGRES_USER: scaped
+      POSTGRES_PASSWORD: scaped
+    ports:
+      - "5432:5432" # optional; only expose if you need direct access
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scaped -d scaped_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 5    
+
+  phx:
+    # image:ghcr.io/vladmaraev/scaped:main
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    environment:
+      PHX_SERVER: true
+      PORT: 5011
+      DATABASE_URL: ecto://scaped:scaped@db:5432/scaped_prod
+      SECRET_KEY_BASE: 
+      GROQ_API_KEY: 
+      AZURE_KEY:
+      AZURE_CLU_KEY:
+      STUDY_ID: 
+    expose:
+      - "5011"
+    ports:
+      - "5011:5011"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pg_data:

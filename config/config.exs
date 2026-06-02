@@ -71,10 +71,15 @@ arch =
   :erlang.system_info(:system_architecture)
   |> List.to_string()
 
-if arch =~ "x86_64" do
-  config :bundlex, :disable_precompiled_os_deps,
-    apps: [:membrane_vpx_plugin, :membrane_rtp_vp8_plugin, :ex_libsrtp, :ex_libsrt]
-end
+config :bundlex, :disable_precompiled_os_deps,
+  apps: [
+    :membrane_vpx_plugin,
+    :membrane_rtp_vp8_plugin,
+    :ex_libsrtp,
+    :ex_libsrt,
+    :membrane_sdl_plugin,
+    :membrane_portaudio_plugin
+  ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

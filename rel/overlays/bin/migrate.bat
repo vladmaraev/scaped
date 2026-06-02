@@ -1,1 +1,1 @@
-call "%~dp0\oeuvre" eval Oeuvre.Release.migrate
+call "%~dp0\scaped" eval Scaped.Release.migrate
