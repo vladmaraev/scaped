@@ -1,0 +1,40 @@
+<div class="px-4 py-10 sm:px-6 sm:py-28 lg:px-8 xl:px-28 xl:py-32">
+  <div class="mx-auto max-w-xl lg:mx-0">
+    <p class="text-[2rem] mt-4 font-semibold leading-10 tracking-tighter text-zinc-900 text-balance">
+      Welcome to the experiment!
+    </p>
+    <p class="mt-4 text-base leading-7 text-zinc-600">[Consent statement]</p>
+    <.simple_form :let={f} for={@changeset} action={@action}>
+      <.error :if={@changeset.action}>
+        Oops, something went wrong! Please check the errors below.
+      </.error>
+      <.input field={f[:trial]} type="text" label="Title" />
+      <:actions>
+        <.button>Start!</.button>
+      </:actions>
+    </.simple_form>
+    <!-- <form action="/trial" method="get"> -->
+    <!--   <div class="flex items-end mt-10"> -->
+    <!--     <div> -->
+    <!--       <label class="block" for="trial">Your code: </label> -->
+    <!--       <input -->
+    <!--         class="me-3 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-teal-500 focus:ring-teal-500 block rounded-md sm:text-sm focus:ring-1 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:shadow-none" -->
+    <!--         type="text" -->
+    <!--         id="trial" -->
+    <!--         name="trial" -->
+    <!--         required -->
+    <!--         minlength="4" -->
+    <!--         maxlength="8" -->
+    <!--       /> -->
+    <!--     </div> -->
+    <!--     <div> -->
+    <!--       <input -->
+    <!--         class="bg-teal-500 hover:bg-teal-700 text-white shadow-lg px-5 py-1 text-xl rounded-full cursor-pointer" -->
+    <!--         type="submit" -->
+    <!--         value="Start!" -->
+    <!--       /> -->
+    <!--     </div> -->
+    <!--   </div> -->
+    <!-- </form> -->
+  </div>
+</div>

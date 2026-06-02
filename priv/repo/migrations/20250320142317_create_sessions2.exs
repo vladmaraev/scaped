@@ -1,4 +1,4 @@
-defmodule Oeuvre.Repo.Migrations.CreateSessions2 do
+defmodule Scaped.Repo.Migrations.CreateSessions2 do
   use Ecto.Migration
 
   def change do
@@ -8,6 +8,7 @@ defmodule Oeuvre.Repo.Migrations.CreateSessions2 do
       add :prolific_study_id, :string
       add :group_id, :integer
       add :step, :integer
+      add :step_complete, :boolean
 
       timestamps(type: :utc_datetime)
     end

@@ -1,7 +1,7 @@
-defmodule Oeuvre.StimuliFixtures do
+defmodule Scaped.StimuliFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Oeuvre.Stimuli` context.
+  entities via the `Scaped.Stimuli` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Oeuvre.StimuliFixtures do
       |> Enum.into(%{
         filename: "some filename"
       })
-      |> Oeuvre.Stimuli.create_image()
+      |> Scaped.Stimuli.create_image()
 
     image
   end

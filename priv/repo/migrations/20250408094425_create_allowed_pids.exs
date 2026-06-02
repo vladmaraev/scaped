@@ -1,4 +1,4 @@
-defmodule Oeuvre.Repo.Migrations.CreateAllowedPids do
+defmodule Scaped.Repo.Migrations.CreateAllowedPids do
   use Ecto.Migration
 
   def change do

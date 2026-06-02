@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "lagoon_voices/dist/index.css";
 
 /* This file is for your main application CSS */
 

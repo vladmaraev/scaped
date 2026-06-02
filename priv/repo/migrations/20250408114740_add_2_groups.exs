@@ -1,5 +1,5 @@
-defmodule Oeuvre.Repo.Migrations.Add2Groups do
-  alias Oeuvre.Groups.Group
+defmodule Scaped.Repo.Migrations.Add2Groups do
+  alias Scaped.Groups.Group
   use Ecto.Migration
 
   def change do
@@ -7,7 +7,12 @@ defmodule Oeuvre.Repo.Migrations.Add2Groups do
 
     for i <- permutations, j <- permutations do
       cs = Group.changeset(%Group{}, %{images: i, conditions: j})
-      Oeuvre.Repo.insert(cs)
+      Scaped.Repo.insert(cs)
     end
+
+    first_group = Scaped.Repo.get!(Group, 1)
+    first_group = Ecto.Changeset.change(first_group, pointer: true)
+    Scaped.Repo.update!(first_group)
+    
   end
 end

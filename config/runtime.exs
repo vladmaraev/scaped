@@ -12,30 +12,36 @@ import Config
 # If you use `mix release`, you need to explicitly enable the server
 # by passing the PHX_SERVER=true when you start it:
 #
-#     PHX_SERVER=true bin/oeuvre start
+#     PHX_SERVER=true bin/scaped start
 #
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if System.get_env("PHX_SERVER") do
-  config :oeuvre, OeuvreWeb.Endpoint, server: true
+  config :scaped, ScapedWeb.Endpoint, server: true
 end
 
-config :oeuvre, Oeuvre.OllamaService,
+config :scaped, Scaped.OllamaService,
   completion_url: System.get_env("COMPLETION_URL") || "http://localhost:11434/api/generate",
   chat_completion_url:
     System.get_env("CHAT_COMPLETION_URL") || System.get_env("COMPLETION_URL") ||
       "http://localhost:11434/api/chat",
   mistral_api_key: System.get_env("MISTRAL_API_KEY")
 
-config :oeuvre, Oeuvre.AzureService,
+config :scaped, Scaped.AzureService,
   key:
     System.get_env("AZURE_KEY") ||
       raise("""
       environment variable AZURE_KEY is missing.
+      """),
+  clu_key:
+    System.get_env("AZURE_CLU_KEY") ||
+      raise("""
+      environment variable AZURE_CLU_KEY is missing.
       """)
 
-config :oeuvre, OeuvreWeb.SessionController,
-  recordings_path: System.get_env("RECORDINGS_PATH") || "tmp"
+config :scaped, ScapedWeb.SessionController,
+  recordings_path: System.get_env("RECORDINGS_PATH") || "tmp",
+  study_id: System.get_env("STUDY_ID") || "0umqymnnc1l"
 
 if config_env() == :prod do
   database_url =
@@ -47,7 +53,7 @@ if config_env() == :prod do
 
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
-  config :oeuvre, Oeuvre.Repo,
+  config :scaped, Scaped.Repo,
     # ssl: true,
     prepare: :unnamed,
     url: database_url,
@@ -70,9 +76,9 @@ if config_env() == :prod do
   port = String.to_integer(System.get_env("PORT") || "4000")
   path = System.get_env("PHX_PATH") || "/"
 
-  config :oeuvre, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+  config :scaped, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
-  config :oeuvre, OeuvreWeb.Endpoint,
+  config :scaped, ScapedWeb.Endpoint,
     url: [host: host, port: port, path: path, scheme: "http"],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -90,7 +96,7 @@ if config_env() == :prod do
   # To get SSL working, you will need to add the `https` key
   # to your endpoint configuration:
   #
-  #     config :oeuvre, OeuvreWeb.Endpoint,
+  #     config :scaped, ScapedWeb.Endpoint,
   #       https: [
   #         ...,
   #         port: 443,
@@ -112,7 +118,7 @@ if config_env() == :prod do
   # We also recommend setting `force_ssl` in your config/prod.exs,
   # ensuring no data is ever sent via http, always redirecting to https:
   #
-  #     config :oeuvre, OeuvreWeb.Endpoint,
+  #     config :scaped, ScapedWeb.Endpoint,
   #       force_ssl: [hsts: true]
   #
   # Check `Plug.SSL` for all available options in `force_ssl`.
@@ -123,7 +129,7 @@ if config_env() == :prod do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
-  #     config :oeuvre, Oeuvre.Mailer,
+  #     config :scaped, Scaped.Mailer,
   #       adapter: Swoosh.Adapters.Mailgun,
   #       api_key: System.get_env("MAILGUN_API_KEY"),
   #       domain: System.get_env("MAILGUN_DOMAIN")

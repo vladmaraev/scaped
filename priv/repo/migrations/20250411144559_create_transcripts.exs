@@ -1,4 +1,4 @@
-defmodule Oeuvre.Repo.Migrations.CreateTranscripts do
+defmodule Scaped.Repo.Migrations.CreateTranscripts do
   use Ecto.Migration
 
   def change do

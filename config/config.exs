@@ -7,19 +7,19 @@
 # General application configuration
 import Config
 
-config :oeuvre,
-  ecto_repos: [Oeuvre.Repo],
+config :scaped,
+  ecto_repos: [Scaped.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :oeuvre, OeuvreWeb.Endpoint,
+config :scaped, ScapedWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: OeuvreWeb.ErrorHTML, json: OeuvreWeb.ErrorJSON],
+    formats: [html: ScapedWeb.ErrorHTML, json: ScapedWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Oeuvre.PubSub,
+  pubsub_server: Scaped.PubSub,
   live_view: [signing_salt: "6Y1cRqX+"]
 
 # Configures the mailer
@@ -29,14 +29,14 @@ config :oeuvre, OeuvreWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :oeuvre, Oeuvre.Mailer, adapter: Swoosh.Adapters.Local
+config :scaped, Scaped.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  oeuvre: [
+  scaped: [
     args:
-      ~w(./js/app --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(./js/app --bundle --format=esm --target=es2022 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
@@ -44,7 +44,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",
-  oeuvre: [
+  scaped: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
@@ -67,8 +67,14 @@ config :mime, :types, %{
 
 # config :bundlex, :disable_precompiled_os_deps, apps: [:ex_libsrtp, :membrane_aac_fdk_plugin, :membrane_opus_plugin, :membrane_mp3_mad_plugin, :membrane_vpx_plugin, :membrane_transcoder_plugin]
 
-config :bundlex, :disable_precompiled_os_deps,
-  apps: [:membrane_vpx_plugin, :membrane_rtp_vp8_plugin, :ex_libsrtp, :ex_libsrt]
+arch =
+  :erlang.system_info(:system_architecture)
+  |> List.to_string()
+
+if arch =~ "x86_64" do
+  config :bundlex, :disable_precompiled_os_deps,
+    apps: [:membrane_vpx_plugin, :membrane_rtp_vp8_plugin, :ex_libsrtp, :ex_libsrt]
+end
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

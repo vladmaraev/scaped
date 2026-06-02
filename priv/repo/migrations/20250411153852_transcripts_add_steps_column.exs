@@ -1,4 +1,4 @@
-defmodule Oeuvre.Repo.Migrations.TranscriptsAddStepsColumn do
+defmodule Scaped.Repo.Migrations.TranscriptsAddStepsColumn do
   use Ecto.Migration
 
   def change do

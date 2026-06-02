@@ -1,9 +1,9 @@
-defmodule Oeuvre.MixProject do
+defmodule Scaped.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :oeuvre,
+      app: :scaped,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,7 +18,7 @@ defmodule Oeuvre.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Oeuvre.Application, []},
+      mod: {Scaped.Application, []},
       extra_applications: [:logger, :runtime_tools, :ssh]
     ]
   end
@@ -63,7 +63,9 @@ defmodule Oeuvre.MixProject do
       {:boombox, "~> 0.2.1"},
       # {:membrane_audio_mix_plugin, "~> 0.16.3"},
       # {:membrane_webrtc_plugin, "~> 0.25.3", override: true},
-      {:benchee, "~> 1.0", only: :dev}
+      {:benchee, "~> 1.0", only: :dev},
+      {:rename_project, "~> 0.1.0", only: :dev},
+      {:req_llm, "~> 1.6"}
       # { :uuid, "~> 1.1" }
     ]
   end
@@ -81,11 +83,11 @@ defmodule Oeuvre.MixProject do
       # "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["cmd npm --prefix assets install", "tailwind oeuvre", "esbuild oeuvre"],
+      "assets.build": ["cmd npm --prefix assets install", "tailwind scaped", "esbuild scaped"],
       "assets.typecheck": ["cmd npm --prefix assets run typecheck"],
       "assets.deploy": [
-        "tailwind oeuvre --minify",
-        "esbuild oeuvre --minify",
+        "tailwind scaped --minify",
+        "esbuild scaped --minify",
         "phx.digest"
       ]
     ]

@@ -9,8 +9,8 @@ module.exports = {
   content: [
     "./js/**/*.js",
     "./js/**/*.ts",
-    "../lib/oeuvre_web.ex",
-    "../lib/oeuvre_web/**/*.*ex",
+    "../lib/scaped_web.ex",
+    "../lib/scaped_web/**/*.*ex",
   ],
   theme: {
     extend: {

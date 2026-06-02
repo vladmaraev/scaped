@@ -1,13 +1,26 @@
 import Config
 # Configure your database
-config :oeuvre, Oeuvre.Repo,
-  prepare: :unnamed,
-  url:
-    System.get_env("DATABASE_URL") ||
-      raise("""
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
-      """)
+# config :scaped, Scaped.Repo,
+#   prepare: :unnamed,
+#   url:
+#     System.get_env("DATABASE_URL") ||
+#       raise("""
+#       environment variable DATABASE_URL is missing.
+#       For example: ecto://USER:PASS@HOST/DATABASE
+#       """)
+
+config :scaped, Scaped.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "scaped_dev",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
+config :req_llm,
+  receive_timeout: 60_000,
+  debug: true,
+  load_dotenv: true
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -15,7 +28,7 @@ config :oeuvre, Oeuvre.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :oeuvre, OeuvreWeb.Endpoint,
+config :scaped, ScapedWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -24,8 +37,8 @@ config :oeuvre, OeuvreWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "+YByVKQTBTmos5RgOE2W59CJjcF7VB7KdOApbkq051XymYPpz7hd+OpzlCmd+UWC",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:oeuvre, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:oeuvre, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:scaped, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:scaped, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -52,17 +65,17 @@ config :oeuvre, OeuvreWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :oeuvre, OeuvreWeb.Endpoint,
+config :scaped, ScapedWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/[^.](?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/[^.].*(po)$",
-      ~r"lib/oeuvre_web/(controllers|live|components)/[^.].*(ex|heex)$"
+      ~r"lib/scaped_web/(controllers|live|components)/[^.].*(ex|heex)$"
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :oeuvre, dev_routes: true
+config :scaped, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, level: :info, format: "[$level] $message\n"

@@ -1,4 +1,4 @@
-defmodule Oeuvre.Repo.Migrations.AddGroups2 do
+defmodule Scaped.Repo.Migrations.AddGroups2 do
   use Ecto.Migration
 
   def change do

@@ -5,7 +5,7 @@ import Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :oeuvre, Oeuvre.Repo,
+config :scaped, Scaped.Repo,
   url:
     System.get_env("DATABASE_URL") ||
       raise("""
@@ -16,13 +16,13 @@ config :oeuvre, Oeuvre.Repo,
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :oeuvre, OeuvreWeb.Endpoint,
+config :scaped, ScapedWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "9kIRceZHz79eDC+h5DIBlbWgmV4ndMK9tKoLQO1aDt7Tr5tz4ml7aj+l3QDH/ltP",
   server: false
 
 # In test we don't send emails
-config :oeuvre, Oeuvre.Mailer, adapter: Swoosh.Adapters.Test
+config :scaped, Scaped.Mailer, adapter: Swoosh.Adapters.Test
 
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
