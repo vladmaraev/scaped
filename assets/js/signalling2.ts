@@ -24,9 +24,6 @@ export const setupRecorders: SetupRecorders = () =>
       await connect("egress_screen", "a+v"),
       await connect("egress_mic", "a"),
     ];
-    // const senders = [pc1.getSenders(), pc2.getSenders()].flat();
-    // const tracks = senders.map((s) => s.track);
-    // console.debug("senders,tracks:", senders, tracks);
     resolve({
       pcs: recorders.map((r) => r.pc),
       sockets: recorders.map((r) => r.socket),
@@ -86,7 +83,6 @@ const startEgressConnection: StartEgressConnection = async (
   return new Promise(async (resolve) => {
     const pc = new RTCPeerConnection(pcConfig);
 
-    // Phoenix inbound
     channel.on(topic, async ({ type, data }) => {
       if (type === "sdp_answer") {
         await pc.setRemoteDescription(data);
@@ -95,7 +91,6 @@ const startEgressConnection: StartEgressConnection = async (
       }
     });
 
-    // Prefer H.264 for video (packetization-mode=1)
     const aTrans = pc.addTransceiver("audio", { direction: "sendonly" });
     const vTrans =
       mode === "a+v"
@@ -129,7 +124,6 @@ const startEgressConnection: StartEgressConnection = async (
       }
     };
 
-    // Attach media, then make the *first* offer once
     async function primeTracksAndOffer() {
       if (mode === "a+v") {
         const ms =
@@ -200,13 +194,6 @@ const replaceWithUserMedia = async (
       }),
     );
 };
-
-// let connStatus = document.getElementById("status")!;
-// const button = document.getElementById("button")!;
-// button.onclick = () => {
-//   connect("egress_screen", "a+v");
-//   connect("egress_mic", "a");
-// };
 
 const signallingId = document
   .getElementById("container")!

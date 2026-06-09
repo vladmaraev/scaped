@@ -3,13 +3,22 @@ defmodule ScapedWeb.SessionHTML do
 
   embed_templates "session_html/*"
 
+  attr :signalling_id, :string
+  attr :session_id, :integer
+  attr :conditon, :string
+
   def override(assigns) do
     ~H"""
-    <div id="app">
+    <div
+      id="app"
+      data-signalling-id={@signalling_id}
+      data-session-id={@session_id}
+      data-condition={@condition}
+    >
     </div>
     """
   end
-  
+
   attr :condition, :string
 
   def avatar(assigns) do
